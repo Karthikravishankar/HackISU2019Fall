@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "driveshare-257723",
+  "private_key_id": "570505b6fff827e2fc610f3146a8a62d77169fc9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCYzuouWxMMCwkX\nXBU7mJlNCmmsXNb2nBgfbWFN+UxJV4o/RaJhfsAsQQYX5C8l5QPu7aep1MBE5eK5\nNABmmTQEMfPcdXcjRG1ajW3iaGX8SDcjofRqJe8vbX1Z/dEUNi6j8PQw9EYX5GPZ\ndgGk/VsnLrr8oBg8b3A37Lahxeb68QV3Jv+QpnSBZyZw4q6HDj7jy0j2ct6Phr9w\nmUMTi47UBz2+dm2VHrVIurO3CGOae1omfHssx2oPKHGTjDhSpW1Uu8dxcf294p4W\nQ9EBwimRAijQQYmxqNqSs/yw63p5dG67Kw2VGouK0E5csP+w1+9z2CCUwhlfA3v2\ncZEl/obhAgMBAAECggEAB53EkVPrwp1oMhheXI6SEYNz2en0suz7zNE0WOEUmtE4\nrEepvMdHB82j4pv2d6KPDCEfSrk2bhixML71SCfZrl3ZBEN8kS7vbmR/Nhoy/xyQ\nVv/TAVlrrwb7iPk8KxA6SeSQH0KFndo92dBma5VPLkhHfKD0JEr/omHzhmOpTBeU\niZJMvIAuVGRkf7dJ/XUllfTNNq/2RDo1OzQa7Qh3jDQd/bkB1mNHo1af5eZyl2Fu\nlW1bu2UoLTSSPh89vm2z0nCtcQ8fjzdtOXBhhtcd47mGLEoUUn234rSC/xfb+CYu\nV3e+sUIHD4GQJB+x+1usFoXLPiOfCXwqUhCl02Mc6wKBgQDRBQYN4EzTeCNHRJpi\nKK+jzmJ1pg2V8MazY7VJsNLI0ZNErQPbn6pgbi2BQYaYVBMV6OSvHt0xvBwnIb0W\ndZutR125ENfLfdoK4jgjRloCEiBYZkpEOIk7knvBHBX3E5XWKV5QsFxGXbmZyM0O\n9/ivwhqyuM5b7qT/lpDzypNwLwKBgQC7J34kh0A1+abdAl7QXadKtKs7WlXFDxj2\nbULLGLVbpXPXEUp6fqxndShalUx2h6ZM31sgDG8/7+2SxCO0mbinyP0KrORJf/JI\ncpPkBqvZXzAJZ45Iwlu92JJiF7m5yXe7+1Hq26ySkLBhSyKrFcTrlimZmHwrsvgH\n0XqpgH4l7wKBgQDJU7JqKTM2uVAZtE2T4KaU/BTAR0psszdg0Nhse2H8Rkk4bAH8\nSEVejqFMD+Zp0Ql1IBctSmg6IHtpgcjU2kEx3Ty8JioE+lrMAuuZpojJ19XJ7/T2\n0xH0DHshHUFW9Eltt/j9dXHb4SkFpHFHSrgB6s+2d+VkjW/mM4u5FtV+xwKBgBTq\nSPKUGtztVXSFe0sV7EgxAKHVaphnI4cGltxTmpDvYI68Y/JkjafSM/xLiwwEBNW6\ncFiYiyY+DfLE8KiSNUyq7Xxv7eM45T6rb1OgWzwjox6p8AC5l78ToOhNdngIx9S+\nNV1lx1dpzAxTdUBhYmxhj6yWmenYSle1VVvz/CUJAoGAcJBF9YPsOgoWWFt5Spxl\nRvM4HSpJ6aQC5Pi0oCGvLT1p7rak+ZMJv4LHM9rnpgsPSI2004Q08P7tiw+vlxrG\npl0Ob2KgFbmuRb2ib58SFtnHxe7km9ptYdyc00BOH7ealIl9SK/aKtfHQyoehK2B\n2V0VCae3ol4mamiJfcEUIGk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "driveshareservice@driveshare-257723.iam.gserviceaccount.com",
+  "client_id": "109898758586624176741",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/driveshareservice%40driveshare-257723.iam.gserviceaccount.com"
+}
