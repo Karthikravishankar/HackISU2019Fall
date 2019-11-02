@@ -3,6 +3,7 @@ package com.example.driveshare;
 
 import com.google.cloud.bigquery.Dataset;
 import com.google.cloud.bigquery.Table;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,9 @@ import java.io.IOException;
 @RequestMapping("/login")
 public class Login {
 
+	@Autowired
+	Server server;
+	
     @GetMapping
     public ResponseEntity<String> getHome() throws IOException {
         System.out.println("user logged");
