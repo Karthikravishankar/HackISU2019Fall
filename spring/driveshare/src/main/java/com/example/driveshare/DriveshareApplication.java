@@ -59,7 +59,6 @@ public class DriveshareApplication {
 
 		FirebaseApp.initializeApp(options);
 		
-		Test.testtrans();
 		
 	}
 

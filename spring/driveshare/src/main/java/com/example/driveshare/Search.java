@@ -3,11 +3,15 @@ package com.example.driveshare;
 import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.api.client.util.Base64;
 import com.google.cloud.bigquery.FieldValue;
 import com.google.cloud.bigquery.FieldValueList;
 import com.google.common.collect.Iterables;
@@ -111,11 +114,25 @@ public class Search {
 		return result;
 	}
 	
-	@RequestMapping("/soundTest")
-	public String soundtest() throws IOException
+	
+	@RequestMapping("/transSound_{text}")
+	public String TransSound(@PathVariable String text) throws IOException, Exception
 	{
-		return Base64.encodeBase64String(TextToSound.getSound("motherfucker"));
-
+		TextToSound.getSound(Translator.translatelanguage(text, "zh"), "en-US");
+		return "good";
+	}
+	
+	@RequestMapping("/soundTest")
+	public JSONObject soundtest() throws IOException, JSONException
+	{
+		JSONObject testV=new JSONObject( new String(TextToSound.getSound("hello" , "en-US")));
+		return testV;
+	}
+	
+	@RequestMapping("/soundtotext")
+	public String soundtotext() throws Exception
+	{
+		return SoundToText.trans();
 	}
 
 }

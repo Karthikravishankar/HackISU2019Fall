@@ -66,6 +66,27 @@
 		  <artifactId>google-cloud-storage</artifactId>
 		  <version>1.99.0</version>
 		</dependency>
+		<dependency>
+		  <groupId>com.google.cloud</groupId>
+		  <artifactId>google-cloud-translate</artifactId>
+		  <version>1.94.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openjfx</groupId>
+		    <artifactId>javafx</artifactId>
+		    <version>11</version>
+		    <type>pom</type>
+		</dependency>
+		<dependency>
+		  <groupId>com.google.cloud</groupId>
+		  <artifactId>google-cloud-speech</artifactId>
+		  <version>1.13.0</version>
+		</dependency>
+		<dependency>
+		   <groupId>com.github.axet</groupId>
+		   <artifactId>java-flac-encoder</artifactId>
+		   <version>0.3.8</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -74,7 +95,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-maven-plugin</artifactId>
+    <version>0.0.3</version>
+    <configuration>
+        <mainClass>hellofx/org.openjfx.App</mainClass>
+    </configuration>
+</plugin>
 		</plugins>
+		
 	</build>
 
 </project>
