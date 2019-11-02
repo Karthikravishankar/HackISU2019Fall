@@ -4,68 +4,58 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string-array name="age">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+    </string-array>
+
+    <string-array name="movie">
+        <item>Action</item>
+        <item>Fiction</item>
+        <item>Comedy</item>
+        <item>Tragedy</item>
+    </string-array>
+
+    <string-array name="vacation">
         <item>Malaysia</item>
         <item>United States</item>
         <item>Indonesia</item>
         <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
     </string-array>
 
     <string-array name="music">
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
+        <item>Pop</item>
+        <item>Rap</item>
+        <item>Blue</item>
+        <item>Jazz</item>
     </string-array>
 
     <string-array name="sport">
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
+        <item>Basketball</item>
+        <item>Pingpong</item>
+        <item>Baseball</item>
+        <item>Tennis</item>
     </string-array>
 
     <string-array name="pet">
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Fish</item>
+        <item>Bear</item>
     </string-array>
 
     <string-array name="drink">
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
+        <item>Monster</item>
+        <item>Pepsi</item>
+        <item>Coke</item>
+        <item>Redbull</item>
     </string-array>
 
     <string-array name="food">
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
+        <item>Rice</item>
+        <item>Ham</item>
+        <item>Turkey</item>
+        <item>Noodle</item>
     </string-array>
 </resources>
