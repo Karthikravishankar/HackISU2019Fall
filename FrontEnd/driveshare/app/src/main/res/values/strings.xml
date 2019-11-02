@@ -8,5 +8,61 @@
     <string-array name="spinner_types">
         <item>Public</item>
         <item>Friends</item>
+    </string=array>
+
+    <string-array name="age">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+    </string-array>
+
+    <string-array name="movie">
+        <item>Action</item>
+        <item>Fiction</item>
+        <item>Comedy</item>
+        <item>Tragedy</item>
+    </string-array>
+
+    <string-array name="vacation">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+    </string-array>
+
+    <string-array name="music">
+        <item>Pop</item>
+        <item>Rap</item>
+        <item>Blue</item>
+        <item>Jazz</item>
+    </string-array>
+
+    <string-array name="sport">
+        <item>Basketball</item>
+        <item>Pingpong</item>
+        <item>Baseball</item>
+        <item>Tennis</item>
+    </string-array>
+
+    <string-array name="pet">
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Fish</item>
+        <item>Bear</item>
+    </string-array>
+
+    <string-array name="drink">
+        <item>Monster</item>
+        <item>Pepsi</item>
+        <item>Coke</item>
+        <item>Redbull</item>
+    </string-array>
+
+    <string-array name="food">
+        <item>Rice</item>
+        <item>Ham</item>
+        <item>Turkey</item>
+        <item>Noodle</item>
     </string-array>
 </resources>

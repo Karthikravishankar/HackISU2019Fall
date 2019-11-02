@@ -11,6 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".search"></activity>
         <activity android:name=".analytics" />
+        <activity android:name=".Settings"></activity>
+        <activity android:name=".Preferences" />
         <activity android:name=".DriveShareMain" />
         <activity android:name=".LoginAndSignup">
             <intent-filter>
