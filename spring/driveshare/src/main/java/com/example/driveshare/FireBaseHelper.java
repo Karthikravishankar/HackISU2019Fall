@@ -1,6 +1,10 @@
 package com.example.driveshare;
 
 import com.google.firebase.database.*;
+import com.google.gson.Gson;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
@@ -41,5 +45,47 @@ public class FireBaseHelper {
         mDatabaseReference = mDatabase.getReference().child(tableName);
         mDatabaseReference = mDatabaseReference.child(object);
         mDatabaseReference.child(key).setValue(value,null);
+    }
+
+    public JSONObject getAvailableDriver(String userName){
+        JSONArray array = new JSONArray();
+        JSONObject jsonobject = new JSONObject();
+        final CountDownLatch[] done = {new CountDownLatch(1)};
+        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = mFirebaseDatabase.getReference().child("preferences");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot Snapshot: dataSnapshot.getChildren()) {
+                    System.out.println(String.valueOf(Snapshot.child("User").getValue()));
+                    if(Snapshot.child("Driving").exists() && String.valueOf(Snapshot.child("User").getValue()).equals(userName)==false) {
+                        if (Snapshot.child("Driving").getValue().toString().equals("true")) {
+                            Object object = Snapshot.getValue(Object.class);
+                            array.put(new Gson().toJson(object));
+                        }
+                    }
+                }
+                if(array!=null) {
+                    try {
+                        jsonobject.put("result", array);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                done[0].countDown();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        try {
+            done[0].await(); //it will wait till the response is received from firebase.
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(array.length());
+        return jsonobject;
     }
 }
