@@ -1,6 +1,8 @@
 package com.example.driveshare;
 
 
+import com.google.cloud.bigquery.Dataset;
+import com.google.cloud.bigquery.Table;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,9 @@ public class Login {
 
     @RequestMapping(value = "/validateLogin", method = RequestMethod.POST)
     public String getJourneyCoordinates(HttpServletRequest request) throws IOException, InterruptedException {
+        BigQueryHelper bigQueryHelper=new BigQueryHelper();
+        Table userinfo =  bigQueryHelper.getTableByName("userinfo");
         return "";
     }
+
 }
