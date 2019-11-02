@@ -54,9 +54,18 @@ public class Search {
 		String From = request.getParameter("From");
 		String Destination = request.getParameter("Destination");
 		String Driving = request.getParameter("Driving");
+		String from_lat = request.getParameter("from_lat");
+		String from_lng = request.getParameter("from_lng");
+		String dest_lat = request.getParameter("dest_lat");
+		String dest_lng= request.getParameter("dest_lng");
+
 		firebaseHelper.updateFirebaseData("preferences",User,"From", From);
 		firebaseHelper.updateFirebaseData("preferences",User,"Destination", Destination);
 		firebaseHelper.updateFirebaseData("preferences",User,"Driving", Driving);
+		firebaseHelper.updateFirebaseData("preferences",User,"from_lat", from_lat);
+		firebaseHelper.updateFirebaseData("preferences",User,"from_lng", from_lng);
+		firebaseHelper.updateFirebaseData("preferences",User,"dest_lat", dest_lat);
+		firebaseHelper.updateFirebaseData("preferences",User,"dest_lng", dest_lng);
 		return "Success";
 	}
 	

@@ -16,7 +16,7 @@ public class AI {
         userPref = preferences;
     }
 
-    public String getBestDriverUserName() throws JSONException {
+    public JSONObject getBestDriverUserName() throws JSONException {
         JSONObject jsonObject = bigQueryHelper.getAvailableDriver();
         Iterator<String> keys = jsonObject.keys();
         JSONObject best = new JSONObject();
@@ -29,7 +29,7 @@ public class AI {
                 best = curr;
             }
         }
-        return String.valueOf(best.get("User"));
+        return best;
     }
 
     public int getHeu(JSONObject driverPref) throws JSONException {
@@ -43,7 +43,7 @@ public class AI {
                 }
             }
         }
-        // if close by equation, add 50
+        // if close by equation, add 40
 
         return hue;
     }
