@@ -29,7 +29,8 @@ public class Login {
 
     @RequestMapping(value = "/validateLogin", method = RequestMethod.POST)
     public String validateLogin(HttpServletRequest request) throws IOException, InterruptedException {
-        return String.valueOf(bigQueryHelper.userExists(request.getParameter("username"),request.getParameter("password")));
+
+        return String.valueOf(bigQueryHelper.userExists(request.getParameter("Username"),request.getParameter("Password")));
     }
 
 }
