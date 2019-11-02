@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.material.navigation.NavigationView;
 
 import android.content.Intent;
@@ -26,7 +27,14 @@ import java.util.HashMap;
 import java.util.Map;
 import android.view.MenuItem;
 
-public class DriveShareMain extends AppCompatActivity {
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallback {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
@@ -36,6 +44,7 @@ public class DriveShareMain extends AppCompatActivity {
     private EditText dest;
     private Double lat, lng;
     private String username;
+    private GoogleMap mMap;
 
     /*
         ToDo:
@@ -61,15 +70,23 @@ public class DriveShareMain extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendPostRequest();
+                if(!dest.getText().toString().equals("")){
+                    sendPostRequest();
+                }
+                else
+                    Toast.makeText(DriveShareMain.this, "Please add destination!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.Google_Map);
+        mapFragment.getMapAsync(this);
+
         linkActivity();
     }
 
     private void sendPostRequest(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://" + getString(R.string.ip_address) + ":8080/customerPage/addRequest";
+        String url = "http://" + getString(R.string.ip_address) + ":8080/search/getDriver";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -115,8 +132,9 @@ public class DriveShareMain extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 switch (id) {
                     case R.id.analytics:
-//                        Intent analytics = new Intent(DriveShareMain.this, ManagerRequstListPage.class);
-//                        startActivity(analytics);
+                        Intent analytics = new Intent(DriveShareMain.this, analytics.class);
+                        analytics.putExtra("username",username);
+                        startActivity(analytics);
                         break;
                     case R.id.preferences:
                         Intent preferences = new Intent(DriveShareMain.this, Preferences.class);
@@ -125,12 +143,25 @@ public class DriveShareMain extends AppCompatActivity {
                         break;
                     case R.id.settings:
                         Intent settings = new Intent(DriveShareMain.this, Settings.class);
+                        settings.putExtra("username",username);
                         startActivity(settings);
                         break;
                 }
                 return false;
             }
         });
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        // Add a marker in Sydney, Australia, and move the camera.
+        LatLng sydney = new LatLng(42.030781, -93.631912);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Ames"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(sydney.latitude, sydney.longitude), 20));
+
 
     }
 }
