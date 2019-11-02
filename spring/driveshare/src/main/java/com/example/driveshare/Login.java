@@ -18,8 +18,7 @@ import java.io.IOException;
 @RequestMapping("/login")
 public class Login {
 
-	@Autowired
-	Server server;
+
 	
     @GetMapping
     public ResponseEntity<String> getHome() throws IOException {

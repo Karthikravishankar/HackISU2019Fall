@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/search")
 public class Search {
 	
-	@Autowired
-	Server server;
-	
 	
 	@GetMapping
 	public ResponseEntity<String> MainSearch()
@@ -21,6 +18,12 @@ public class Search {
 		//simple comment test git
 		System.out.println("Search page is actived");
 		return new ResponseEntity<>("Welcome to search page" , HttpStatus.OK);
+	}
+	
+	@RequestMapping("/All")
+	public String ListAlluser()
+	{
+		return "";
 	}
 	
 	
