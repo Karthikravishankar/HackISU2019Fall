@@ -3,6 +3,8 @@ package com.example.driveshare;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.bigquery.*;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,8 +20,11 @@ public class DriveshareApplication {
 	public static BigQuery bigQueryDR;
 	public static Dataset datasetDR;
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		SpringApplication.run(DriveshareApplication.class, args);
+
+
+		//Big query initialize
 		bigQueryDR = BigQueryOptions.getDefaultInstance().getService();
 
 		GoogleCredentials credentials = null;
@@ -33,10 +38,7 @@ public class DriveshareApplication {
 		}
 
 		// Instantiate a client.
-		bigQueryDR =
-				BigQueryOptions.newBuilder().setCredentials(credentials).build().getService();
-
-		// Use the client.
+		bigQueryDR = BigQueryOptions.newBuilder().setCredentials(credentials).build().getService();
 		System.out.println("Datasets:");
 		for (Dataset dataset : bigQueryDR.listDatasets().iterateAll()) {
 			System.out.printf("%s%n", dataset.getDatasetId().getDataset());
@@ -45,6 +47,16 @@ public class DriveshareApplication {
 			}
 		}
 
+		// Firebase initialize
+		FileInputStream serviceAccount =
+				new FileInputStream("C:\\Users\\Karth\\Desktop\\hackisu2019fall\\HackISU2019Fall\\spring\\driveshare\\src\\FBcert.json");
+
+		FirebaseOptions options = new FirebaseOptions.Builder()
+				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
+				.setDatabaseUrl("https://driveshare-257723.firebaseio.com")
+				.build();
+
+		FirebaseApp.initializeApp(options);
 	}
 
 }

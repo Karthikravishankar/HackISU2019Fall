@@ -17,6 +17,8 @@ import java.io.IOException;
 @RequestMapping("/login")
 public class Login {
 
+    private BigQueryHelper bigQueryHelper = new BigQueryHelper();
+
     @GetMapping
     public ResponseEntity<String> getHome() throws IOException {
         System.out.println("user logged");
@@ -27,7 +29,6 @@ public class Login {
 
     @RequestMapping(value = "/validateLogin", method = RequestMethod.POST)
     public String validateLogin(HttpServletRequest request) throws IOException, InterruptedException {
-        BigQueryHelper bigQueryHelper = new BigQueryHelper();
         return String.valueOf(bigQueryHelper.userExists(request.getParameter("username"),request.getParameter("password")));
     }
 

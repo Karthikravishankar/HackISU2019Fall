@@ -10,21 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/search")
 public class Search {
-	
+
 	@GetMapping
-	public ResponseEntity<String> MainSearch()
-	{
-		//simple comment test git
+	public ResponseEntity<String> MainSearch() {
 		System.out.println("Search page is actived");
 		return new ResponseEntity<>("Welcome to search page" , HttpStatus.OK);
 	}
 	
-	
-	@RequestMapping("/test")
-	public String Search()
-	{
-		return "test";
-	}
+
 	
 
 }
