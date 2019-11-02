@@ -26,12 +26,10 @@ public class Preferences {
         String Drink = request.getParameter("Drink");
         String Food = request.getParameter("Food");
         String Age = request.getParameter("Age");
-        String Listener = request.getParameter("Listener");
-        String Talker = request.getParameter("Talker");
+        String TalkorListener = request.getParameter("TalkorListener");
         String User = request.getParameter("User");
         firebaseHelper.updateFirebaseData("preferences",User,"User", User);
-        firebaseHelper.updateFirebaseData("preferences",User,"Talker", Talker);
-        firebaseHelper.updateFirebaseData("preferences",User,"Listener", Listener);
+        firebaseHelper.updateFirebaseData("preferences",User,"TalkorListener", TalkorListener);
         firebaseHelper.updateFirebaseData("preferences",User,"Age", Age);
         firebaseHelper.updateFirebaseData("preferences",User,"Food", Food);
         firebaseHelper.updateFirebaseData("preferences",User,"Drink", Drink);
@@ -57,8 +55,7 @@ public class Preferences {
         String Drink = firebaseHelper.getFirebaseData("preferences",User,"Music");
         String Food = firebaseHelper.getFirebaseData("preferences",User,"Music");
         String Age = firebaseHelper.getFirebaseData("preferences",User,"Music");
-        String Listener = firebaseHelper.getFirebaseData("preferences",User,"Music");
-        String Talker = firebaseHelper.getFirebaseData("preferences",User,"Music");
+        String TalkorListener = firebaseHelper.getFirebaseData("preferences",User,"TalkorListener");
 
         jsonObject.put("Movies", Movies);
         jsonObject.put("Vacation", Vacation);
@@ -68,8 +65,7 @@ public class Preferences {
         jsonObject.put("Drink", Drink);
         jsonObject.put("Food", Food);
         jsonObject.put("Age", Age);
-        jsonObject.put("Listener", Listener);
-        jsonObject.put("Talker", Talker);
+        jsonObject.put("TalkorListener", TalkorListener);
         return jsonObject.toString();
     }
 }
