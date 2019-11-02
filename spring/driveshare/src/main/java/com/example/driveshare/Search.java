@@ -36,14 +36,13 @@ public class Search {
 	{
 		return "";
 	}
-	
-	
-	@RequestMapping("/test")
-	public String Search()
-	{
+
+
+	@RequestMapping(value = "/getDriver" , method=RequestMethod.POST )
+	public String Search() {
 		
 
-		return "test";
+		return "";
 	}
 	
 	@RequestMapping(value = "/save" , method=RequestMethod.POST )
@@ -55,6 +54,7 @@ public class Search {
 		driveinfo.put("pickup", di.pickup);
 		driveinfo.put("destination", di.destination);
 		driveinfo.put("distance", di.distance);
+		driveinfo.put("cost", "100");
 		driveinfo.put("gasolineSaved", di.gasolineSaved);
 		BigQueryHelper bg = new BigQueryHelper();
 		bg.InsertIntoTable(driveinfo , "driveinfo");

@@ -20,7 +20,7 @@ public class BigQueryHelper {
 
 
     public boolean userExists(String username, String password) throws InterruptedException {
-        String query = "Select * from driveshare.userinfo where username = '" + username + "' and password  ='" + password + "'";
+        String query = "Select * from driveshare.userinfo where Username = '" + username + "' and Password  ='" + password + "'";
         QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
         for (FieldValueList row : DriveshareApplication.bigQueryDR.query(queryConfig).iterateAll()) {
             for (FieldValue val : row) {
