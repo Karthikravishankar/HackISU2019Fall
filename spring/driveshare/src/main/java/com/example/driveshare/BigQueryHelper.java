@@ -33,12 +33,8 @@ public class BigQueryHelper {
 
     public Iterable<FieldValueList> executeQuery(String query) throws InterruptedException {
         QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
-//        for (FieldValueList row : DriveshareApplication.bigQueryDR.query(queryConfig).iterateAll()) {
-//            for (FieldValue val : row) {
-//                System.out.printf("%s,", val.toString());
-//            }
-//            System.out.printf("\n");
-//        }
+
+        
         return DriveshareApplication.bigQueryDR.query(queryConfig).iterateAll();
     }
     
