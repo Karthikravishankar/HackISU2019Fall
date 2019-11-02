@@ -3,12 +3,13 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="ip_address">10.27.248.34</string>
+    <string name="google_maps_key">AIzaSyCu0kbDMOkf3KDIufqNcAH8apQfq8fcoRo</string>
 
     <string name="spinner_prompt">Choose Type</string>
     <string-array name="spinner_types">
         <item>Public</item>
         <item>Friends</item>
-    </string=array>
+    </string-array>
 
     <string-array name="age">
         <item>10</item>
@@ -65,4 +66,5 @@
         <item>Turkey</item>
         <item>Noodle</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 </resources>
