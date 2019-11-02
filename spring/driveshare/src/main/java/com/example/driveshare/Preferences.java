@@ -44,8 +44,11 @@ public class Preferences {
 
     @RequestMapping(value = "/getPreferences", method = RequestMethod.POST)
     public String getPreferences(HttpServletRequest request) throws IOException, InterruptedException, JSONException {
+        return getUserPreferences(request.getParameter("User")).toString();
+    }
+
+    public JSONObject getUserPreferences(String User) throws IOException, InterruptedException, JSONException {
         JSONObject jsonObject = new JSONObject();
-        String User = request.getParameter("User");
 
         String Movies = firebaseHelper.getFirebaseData("preferences",User,"Movies");
         String Vacation = firebaseHelper.getFirebaseData("preferences",User,"Vacation");
@@ -66,6 +69,6 @@ public class Preferences {
         jsonObject.put("Food", Food);
         jsonObject.put("Age", Age);
         jsonObject.put("TalkorListener", TalkorListener);
-        return jsonObject.toString();
+        return jsonObject;
     }
 }

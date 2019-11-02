@@ -24,9 +24,13 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.protobuf.ByteString;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/search")
 public class Search {
+
+	private FireBaseHelper firebaseHelper = new FireBaseHelper();
 
 	@GetMapping
 	public ResponseEntity<String> MainSearch() {
@@ -43,10 +47,21 @@ public class Search {
 
 
 	@RequestMapping(value = "/getDriver" , method=RequestMethod.POST )
-	public String Search() {
-		
-
+	public String Search(HttpServletRequest request) {
+		String User = request.getParameter("User");
 		return "";
+	}
+
+	@RequestMapping(value = "/Settings" , method=RequestMethod.POST )
+	public String Settings(HttpServletRequest request) {
+		String User = request.getParameter("User");
+		String From = request.getParameter("From");
+		String Destination = request.getParameter("Destination");
+		String Driving = request.getParameter("Driving");
+		firebaseHelper.updateFirebaseData("preferences",User,"From", From);
+		firebaseHelper.updateFirebaseData("preferences",User,"Destination", Destination);
+		firebaseHelper.updateFirebaseData("preferences",User,"Driving", Driving);
+		return "Success";
 	}
 	
 	@RequestMapping(value = "/save" , method=RequestMethod.POST )
