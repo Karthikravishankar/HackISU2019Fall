@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/search")
 public class Search {
 	
-	@Autowired
-	Server server;
-	
-	
 	@GetMapping
 	public ResponseEntity<String> MainSearch()
 	{

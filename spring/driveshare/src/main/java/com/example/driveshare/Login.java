@@ -1,8 +1,7 @@
 package com.example.driveshare;
 
 
-import com.google.cloud.bigquery.Dataset;
-import com.google.cloud.bigquery.Table;
+import com.google.cloud.bigquery.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,6 @@ import java.io.IOException;
 @RequestMapping("/login")
 public class Login {
 
-	@Autowired
-	Server server;
-	
     @GetMapping
     public ResponseEntity<String> getHome() throws IOException {
         System.out.println("user logged");
@@ -30,10 +26,9 @@ public class Login {
     }
 
     @RequestMapping(value = "/validateLogin", method = RequestMethod.POST)
-    public String getJourneyCoordinates(HttpServletRequest request) throws IOException, InterruptedException {
-        BigQueryHelper bigQueryHelper=new BigQueryHelper();
-        Table userinfo =  bigQueryHelper.getTableByName("userinfo");
-        return "";
+    public String validateLogin(HttpServletRequest request) throws IOException, InterruptedException {
+        BigQueryHelper bigQueryHelper = new BigQueryHelper();
+        return String.valueOf(bigQueryHelper.userExists(request.getParameter("username"),request.getParameter("password")));
     }
 
 }
