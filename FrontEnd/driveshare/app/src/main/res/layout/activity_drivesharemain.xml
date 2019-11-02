@@ -22,7 +22,6 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/TextAppearance.AppCompat.Large"
             android:elevation="4dp"/>
-<!--        <include layout="@layout/activity_manager_job_situation_page"/>-->
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView

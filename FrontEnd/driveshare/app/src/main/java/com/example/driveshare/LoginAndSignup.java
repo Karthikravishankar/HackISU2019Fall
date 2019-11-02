@@ -37,7 +37,9 @@ public class LoginAndSignup extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Login();
+                Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+                startActivity(i);
+                //Login();
             }
         });
     }
@@ -51,8 +53,8 @@ public class LoginAndSignup extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
-                        startActivity(i);
+//                        Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+//                        startActivity(i);
                     }
                 }, new Response.ErrorListener() {
             @Override
