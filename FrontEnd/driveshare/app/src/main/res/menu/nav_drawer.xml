@@ -6,10 +6,10 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_drawer1"
 
-            android:title="Check Request" />
+            android:title="Drawer1" />
         <item android:id="@+id/nav_drawer2"
 
-            android:title="Check Driver" />
+            android:title="Drawer2" />
     </group>
 
 </menu>
