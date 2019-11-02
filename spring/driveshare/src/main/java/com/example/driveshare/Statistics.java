@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/statistics")
 public class Statistics {
-	
-	@Autowired
-	Server server;
+
 	
 	@GetMapping
 	public ResponseEntity<String> MainStatistics()
