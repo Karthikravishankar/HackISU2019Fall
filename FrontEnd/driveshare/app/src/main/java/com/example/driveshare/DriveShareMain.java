@@ -154,10 +154,12 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         // Add a marker in Sydney, Australia, and move the camera.
-        LatLng sydney = new LatLng(-93.631912, 42.030781);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng sydney = new LatLng(42.030781, -93.631912);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Ames"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(sydney.latitude, sydney.longitude), 20));
+
+
     }
 }
