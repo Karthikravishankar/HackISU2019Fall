@@ -10,6 +10,8 @@
             android:title="Preferences" />
         <item android:id="@+id/settings"
             android:title="Settings" />
+        <item android:id="@+id/sound"
+            android:title="Sound" />
     </group>
 
 </menu>

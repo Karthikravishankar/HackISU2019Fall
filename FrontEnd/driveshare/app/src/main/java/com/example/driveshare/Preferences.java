@@ -50,8 +50,7 @@ public class Preferences extends AppCompatActivity {
         age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Age = age.getItemAtPosition(age.getSelectedItemPosition()).toString();
-                Age = Age.replace("\"", "");
+                Age = age.getSelectedItem().toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -61,8 +60,8 @@ public class Preferences extends AppCompatActivity {
         sport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Sport = sport.getItemAtPosition(age.getSelectedItemPosition()).toString();
-                Sport = Sport.replace("\"", "");
+                Sport = sport.getSelectedItem().toString();
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -72,8 +71,7 @@ public class Preferences extends AppCompatActivity {
         pet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Pet = pet.getItemAtPosition(age.getSelectedItemPosition()).toString();
-                Pet = Pet.replace("\"", "");
+                Pet = pet.getSelectedItem().toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -83,8 +81,7 @@ public class Preferences extends AppCompatActivity {
         music.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Music = music.getItemAtPosition(age.getSelectedItemPosition()).toString();
-                Music = Music.replace("\"", "");
+                Music = music.getSelectedItem().toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -94,8 +91,7 @@ public class Preferences extends AppCompatActivity {
         drink.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Drink = drink.getItemAtPosition(age.getSelectedItemPosition()).toString();
-                Drink = Drink.replace("\"", "");
+                Drink = drink.getSelectedItem().toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -105,8 +101,7 @@ public class Preferences extends AppCompatActivity {
         food.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Food = food.getItemAtPosition(age.getSelectedItemPosition()).toString();
-                Food = Food.replace("\"", "");
+                Food = food.getSelectedItem().toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -116,8 +111,7 @@ public class Preferences extends AppCompatActivity {
         movie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Movie = movie.getItemAtPosition(age.getSelectedItemPosition()).toString();
-                Movie = Movie.replace("\"", "");
+                Movie = movie.getSelectedItem().toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -127,8 +121,7 @@ public class Preferences extends AppCompatActivity {
         vacation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Vacation = vacation.getItemAtPosition(age.getSelectedItemPosition()).toString();
-                Vacation = Vacation.replace("\"", "");
+                Vacation = vacation.getSelectedItem().toString();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -153,6 +146,7 @@ public class Preferences extends AppCompatActivity {
                     public void onResponse(String response) {
 //                        Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
 //                        startActivity(i);
+                        System.out.println(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
