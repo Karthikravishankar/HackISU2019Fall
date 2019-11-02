@@ -37,13 +37,13 @@ public class LoginAndSignup extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
-                startActivity(i);
-//                try {
-//                    sendPostValidateLogin();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+//                Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+//                startActivity(i);
+                try {
+                    sendPostValidateLogin();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

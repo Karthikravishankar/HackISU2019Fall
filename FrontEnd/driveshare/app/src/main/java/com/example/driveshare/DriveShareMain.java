@@ -86,7 +86,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
 
     private void sendPostRequest(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://" + getString(R.string.ip_address) + ":8080/customerPage/addRequest";
+        String url = "http://" + getString(R.string.ip_address) + ":8080/search/getDriver";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -133,6 +133,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                 switch (id) {
                     case R.id.analytics:
                         Intent analytics = new Intent(DriveShareMain.this, analytics.class);
+                        analytics.putExtra("username",username);
                         startActivity(analytics);
                         break;
                     case R.id.preferences:
@@ -142,6 +143,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                         break;
                     case R.id.settings:
                         Intent settings = new Intent(DriveShareMain.this, Settings.class);
+                        settings.putExtra("username",username);
                         startActivity(settings);
                         break;
                 }
