@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,9 +50,43 @@ public class Search {
 
 
 	@RequestMapping(value = "/getDriver" , method=RequestMethod.POST )
-	public String Search(HttpServletRequest request) {
-		String User = request.getParameter("User");
+	public String Search(HttpServletRequest request) throws JSONException, IOException, InterruptedException {
+		String username = request.getParameter("username");
+		String destination = request.getParameter("destination");
+		String type = request.getParameter("type");
+		String latitude = request.getParameter("latitude");
+		String longitude = request.getParameter("longitude");
+		String destlatitude = request.getParameter("dest_lat");
+		String destlongitude = request.getParameter("dest_lng");
+		AI ai =  new AI(getUserPreferences(username),username,latitude,longitude,destlatitude,destlongitude);
+		System.out.println(ai.getHashMap()==null);
+		System.out.println(ai.getHashMap().get("User"));
 		return "";
+	}
+
+	public JSONObject getUserPreferences(String User) throws IOException, InterruptedException, JSONException {
+		JSONObject jsonObject = new JSONObject();
+
+		String Movies = firebaseHelper.getFirebaseData("preferences",User,"Movies");
+		String Vacation = firebaseHelper.getFirebaseData("preferences",User,"Vacation");
+		String Music = firebaseHelper.getFirebaseData("preferences",User,"Music");
+		String Sports = firebaseHelper.getFirebaseData("preferences",User,"Music");
+		String Pets = firebaseHelper.getFirebaseData("preferences",User,"Music");
+		String Drink = firebaseHelper.getFirebaseData("preferences",User,"Music");
+		String Food = firebaseHelper.getFirebaseData("preferences",User,"Music");
+		String Age = firebaseHelper.getFirebaseData("preferences",User,"Music");
+		String TalkorListener = firebaseHelper.getFirebaseData("preferences",User,"TalkorListener");
+
+		jsonObject.put("Movies", Movies);
+		jsonObject.put("Vacation", Vacation);
+		jsonObject.put("Music", Music);
+		jsonObject.put("Sports", Sports);
+		jsonObject.put("Pets", Pets);
+		jsonObject.put("Drink", Drink);
+		jsonObject.put("Food", Food);
+		jsonObject.put("Age", Age);
+		jsonObject.put("TalkorListener", TalkorListener);
+		return jsonObject;
 	}
 
 	@RequestMapping(value = "/Settings" , method=RequestMethod.POST )
@@ -110,12 +147,21 @@ public class Search {
 			
 		return result;
 	}
-	
-	@RequestMapping("/soundTest")
-	public String soundtest() throws IOException
-	{
-		return Base64.encodeBase64String(TextToSound.getSound("motherfucker"));
 
+//	@RequestMapping(value = "/soundTest" , method=RequestMethod.POST )
+//	public String soundtest() throws IOException
+//	{
+//
+////		return new String(TextToSound.getSound("hello"));
+//		byte[] bytes =Base64.encodeBase64URLSafe(TextToSound.getSound("motherfucker"));
+//		return new String(bytes);
+////		return Base64.encodeToString(TextToSound.getSound("motherfucker"));
+//	}
+
+	@RequestMapping("/soundTest")
+	public ResponseEntity<byte[]> soundtest() throws IOException
+	{
+		return new ResponseEntity<>(TextToSound.getSound("hello") , HttpStatus.OK);
 	}
 
 }

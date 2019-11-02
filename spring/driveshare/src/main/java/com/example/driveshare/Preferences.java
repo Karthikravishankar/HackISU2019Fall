@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.concurrent.CountDownLatch;
 
 @RestController
 @RequestMapping("/preferences")
@@ -17,7 +19,7 @@ public class Preferences {
 
 
     @RequestMapping(value = "/storePreferences", method = RequestMethod.POST)
-    public String storePreferences(HttpServletRequest request) throws IOException, InterruptedException {
+    public String storePreferences(HttpServletRequest request) throws IOException, InterruptedException, JSONException {
         String Movies = request.getParameter("Movies");
         String Vacation = request.getParameter("Vacation");
         String Music = request.getParameter("Music");
@@ -28,16 +30,35 @@ public class Preferences {
         String Age = request.getParameter("Age");
         String TalkorListener = request.getParameter("TalkorListener");
         String User = request.getParameter("User");
-        firebaseHelper.updateFirebaseData("preferences",User,"User", User);
-        firebaseHelper.updateFirebaseData("preferences",User,"TalkorListener", TalkorListener);
-        firebaseHelper.updateFirebaseData("preferences",User,"Age", Age);
-        firebaseHelper.updateFirebaseData("preferences",User,"Food", Food);
-        firebaseHelper.updateFirebaseData("preferences",User,"Drink", Drink);
-        firebaseHelper.updateFirebaseData("preferences",User,"Pets", Pets);
-        firebaseHelper.updateFirebaseData("preferences",User,"Sports", Sports);
-        firebaseHelper.updateFirebaseData("preferences",User,"Music", Music);
-        firebaseHelper.updateFirebaseData("preferences",User,"Movies", Movies);
-        firebaseHelper.updateFirebaseData("preferences",User,"Vacation", Vacation);
+//        firebaseHelper.updateFirebaseData("preferences",User,"User", User);
+//        firebaseHelper.updateFirebaseData("preferences",User,"TalkorListener", TalkorListener);
+//        firebaseHelper.updateFirebaseData("preferences",User,"Age", Age);
+//        firebaseHelper.updateFirebaseData("preferences",User,"Food", Food);
+//        firebaseHelper.updateFirebaseData("preferences",User,"Drink", Drink);
+//        firebaseHelper.updateFirebaseData("preferences",User,"Pets", Pets);
+//        firebaseHelper.updateFirebaseData("preferences",User,"Sports", Sports);
+//        firebaseHelper.updateFirebaseData("preferences",User,"Music", Music);
+//        firebaseHelper.updateFirebaseData("preferences",User,"Movies", Movies);
+//        firebaseHelper.updateFirebaseData("preferences",User,"Vacation", Vacation);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Movies",Movies);
+        jsonObject.put("Vacation",Vacation);
+        jsonObject.put("Music",Music);
+        jsonObject.put("Sports",Sports);
+        jsonObject.put("Pets",Pets);
+        jsonObject.put("Drink",Drink);
+        jsonObject.put("Food",Food);
+        jsonObject.put("Age",Age);
+        jsonObject.put("TalkorListener",TalkorListener);
+        jsonObject.put("User",User);
+
+        final CountDownLatch[] done = {new CountDownLatch(1)};
+
+        Iterator<String> keys = jsonObject.keys();
+        while(keys.hasNext()) {
+            String key = keys.next();
+            firebaseHelper.updateFirebaseData("preferences",User,key, String.valueOf(jsonObject.get(key)));
+        }
 
         return "Success";
     }
