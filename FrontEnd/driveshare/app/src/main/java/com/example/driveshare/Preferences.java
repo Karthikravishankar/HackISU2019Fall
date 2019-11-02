@@ -165,12 +165,12 @@ public class Preferences extends AppCompatActivity {
                 System.out.println(Age);
                 params.put("User",username);
                 params.put("Age", Age);
-                params.put("Sport", Sport);
-                params.put("Pet", Pet);
+                params.put("Sports", Sport);
+                params.put("Pets", Pet);
                 params.put("Music", Music);
                 params.put("Drink", Drink);
                 params.put("Food", Food);
-                params.put("Movie", Movie);
+                params.put("Movies", Movie);
                 params.put("Vacation", Vacation);
                 params.put("TalkorListener", TalkorListener);
                 System.out.println("Put successfully");
