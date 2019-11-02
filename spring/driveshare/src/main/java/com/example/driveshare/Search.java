@@ -1,6 +1,8 @@
 package com.example.driveshare;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,8 +35,25 @@ public class Search {
 	@RequestMapping("/test")
 	public String Search()
 	{
+		
+
 		return "test";
 	}
+	
+	@RequestMapping("/save")
+	public void SaveDriverRecord()
+	{
+		Map<String,Object> temp = new HashMap<>();
+		temp.put("username", "test");
+		temp.put("drivername", "test");
+		temp.put("pickup", "test");
+		temp.put("destination", "test");
+		temp.put("distance", "test");
+		temp.put("gasolineSaved", "test");
+		BigQueryHelper bg = new BigQueryHelper();
+		bg.InsertIntoTable(temp , "driveinfo");
+	}
+
 
 	@RequestMapping("/{username}")
 	public String SearchPerson(@PathVariable String username)
