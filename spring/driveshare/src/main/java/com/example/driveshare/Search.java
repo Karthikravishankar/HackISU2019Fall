@@ -1,6 +1,7 @@
 package com.example.driveshare;
 
 import java.awt.List;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.api.client.util.Base64;
 import com.google.cloud.bigquery.FieldValue;
 import com.google.cloud.bigquery.FieldValueList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
+import com.google.protobuf.ByteString;
 
 @RestController
 @RequestMapping("/search")
@@ -34,7 +37,8 @@ public class Search {
 	@RequestMapping("/All")
 	public String ListAlluser()
 	{
-		return "";
+		System.out.print("sdfa");
+		return "hh";
 	}
 
 
@@ -83,5 +87,11 @@ public class Search {
 		return result;
 	}
 	
+	@RequestMapping("/soundTest")
+	public String soundtest() throws IOException
+	{
+		return Base64.encodeBase64String(TextToSound.getSound("motherfucker"));
+
+	}
 
 }
