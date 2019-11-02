@@ -15,17 +15,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCu0kbDMOkf3KDIufqNcAH8apQfq8fcoRo" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+        
         <activity android:name=".search" />
         <activity android:name=".analytics" />
         <activity android:name=".Settings" />
@@ -39,5 +36,12 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

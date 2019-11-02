@@ -37,32 +37,80 @@ public class LoginAndSignup extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
-                startActivity(i);
-                //Login();
+//                Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+//                startActivity(i);
+                try {
+                    sendPostValidateLogin();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void Login() {
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "";
+//    private void Login() {
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        String url =  "http://" + getString(R.string.ip_address) + ":8080/login/validateLogin";
+//
+//        // Request a string response from the provided URL.
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        System.out.println(response);
+//                        if (response.equals("true")){
+//                            Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+//                            startActivity(i);
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//            }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() {
+//                System.out.println(username.getText().toString());
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Username", username.getText().toString());
+//                params.put("Password", password.getText().toString());
+//
+//                System.out.println("Put successfully");
+//                return params;
+//            }
+//        };
+//
+//        // Add the request to the RequestQueue.
+//        queue.add(stringRequest);
+//    }
 
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+
+    private void sendPostValidateLogin() throws Exception {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        //The password's TextInputLayout
+        String url =  "http://" + getString(R.string.ip_address) + ":8080/login/validateLogin";
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
-//                        startActivity(i);
+                        System.out.println(response);
+                        if (response.equals("true")){
+                            Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+                            i.putExtra("Username", username.getText().toString());
+                            startActivity(i);
+                        }
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }
+        ) {
             @Override
             protected Map<String, String> getParams() {
+                System.out.println(username.getText().toString());
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Username", username.getText().toString());
                 params.put("Password", password.getText().toString());
@@ -71,9 +119,8 @@ public class LoginAndSignup extends AppCompatActivity {
                 return params;
             }
         };
-
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        queue.add(postRequest);
+        System.out.println("done?");
     }
 }
 

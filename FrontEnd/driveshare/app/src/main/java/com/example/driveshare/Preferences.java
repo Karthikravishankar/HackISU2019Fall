@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Preferences extends AppCompatActivity {
-    private Spinner age, sport, pet, music, drink, food;
-    private String Age, Sport, Pet, Music, Drink, Food, TalkorListener;
+    private Spinner age, sport, pet, music, drink, food, movie, vacation;
+    private String Age, Sport, Pet, Music, Drink, Food, Movie, Vacation, TalkorListener, username;
     private Button send;
     private RadioGroup talkOrlisten;
     private RadioButton talkorlistener;
@@ -37,7 +37,10 @@ public class Preferences extends AppCompatActivity {
         music = findViewById(R.id.music);
         drink = findViewById(R.id.drink);
         food = findViewById(R.id.food);
+        movie = findViewById(R.id.movie);
+        vacation = findViewById(R.id.vacation);
         send = findViewById(R.id.send);
+        username = getIntent().getStringExtra("username");
 
         talkOrlisten = findViewById(R.id.talkOrlisten);
         int select = talkOrlisten.getCheckedRadioButtonId();
@@ -110,7 +113,28 @@ public class Preferences extends AppCompatActivity {
                 // DO Nothing here
             }
         });
-
+        movie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Movie = movie.getItemAtPosition(age.getSelectedItemPosition()).toString();
+                Movie = Movie.replace("\"", "");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // DO Nothing here
+            }
+        });
+        vacation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Vacation = vacation.getItemAtPosition(age.getSelectedItemPosition()).toString();
+                Vacation = Vacation.replace("\"", "");
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // DO Nothing here
+            }
+        });
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +144,7 @@ public class Preferences extends AppCompatActivity {
     }
     private void sendPreference() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "";
+        String url = "http://" + getString(R.string.ip_address) + ":8080/preferences/storePreferences";
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -138,12 +162,16 @@ public class Preferences extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
+                System.out.println(Age);
+                params.put("User",username);
                 params.put("Age", Age);
-                params.put("Sport", Sport);
-                params.put("Pet", Pet);
+                params.put("Sports", Sport);
+                params.put("Pets", Pet);
                 params.put("Music", Music);
                 params.put("Drink", Drink);
                 params.put("Food", Food);
+                params.put("Movies", Movie);
+                params.put("Vacation", Vacation);
                 params.put("TalkorListener", TalkorListener);
                 System.out.println("Put successfully");
                 return params;

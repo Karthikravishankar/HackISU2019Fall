@@ -43,6 +43,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
     private Spinner type;
     private EditText dest;
     private Double lat, lng;
+    private String username;
     private GoogleMap mMap;
 
     /*
@@ -62,7 +63,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        username = getIntent().getStringExtra("Username");
         type = findViewById(R.id.spinner);
         dest = findViewById(R.id.editText_dest);
         submit = findViewById(R.id.button_search);
@@ -136,6 +137,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                         break;
                     case R.id.preferences:
                         Intent preferences = new Intent(DriveShareMain.this, Preferences.class);
+                        preferences.putExtra("username",username);
                         startActivity(preferences);
                         break;
                     case R.id.settings:
