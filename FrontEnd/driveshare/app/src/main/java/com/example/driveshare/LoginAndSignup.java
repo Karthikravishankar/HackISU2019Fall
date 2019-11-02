@@ -2,6 +2,7 @@ package com.example.driveshare;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewStructure;
@@ -50,7 +51,8 @@ public class LoginAndSignup extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+                        startActivity(i);
                     }
                 }, new Response.ErrorListener() {
             @Override
