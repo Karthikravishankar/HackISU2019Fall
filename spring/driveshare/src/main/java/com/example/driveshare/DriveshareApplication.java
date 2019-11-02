@@ -18,7 +18,7 @@ public class DriveshareApplication {
 	public static BigQuery bigQueryDR;
 	public static Dataset datasetDR;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		SpringApplication.run(DriveshareApplication.class, args);
 		bigQueryDR = BigQueryOptions.getDefaultInstance().getService();
 
@@ -44,6 +44,7 @@ public class DriveshareApplication {
 				datasetDR = dataset;
 			}
 		}
+
 	}
 
 }

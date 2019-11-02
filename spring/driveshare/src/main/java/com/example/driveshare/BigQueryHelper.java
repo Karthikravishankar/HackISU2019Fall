@@ -3,6 +3,8 @@ package com.example.driveshare;
 import com.google.api.gax.paging.Page;
 import com.google.cloud.bigquery.*;
 
+import java.util.ArrayList;
+
 public class BigQueryHelper {
 
     public Table getTableByName(String name){
@@ -15,19 +17,27 @@ public class BigQueryHelper {
         return null;
     }
 
-    // [TARGET create(JobInfo, JobOption...)]
-// [VARIABLE "SELECT field FROM my_dataset_name.my_table_name"]
-    public Job createJob(String query) {
-        // [START createJob]
-        Job job = null;
-        JobConfiguration jobConfiguration = QueryJobConfiguration.of(query);
-        JobInfo jobInfo = JobInfo.of(jobConfiguration);
-        try {
-            job = DriveshareApplication.bigQueryDR.create(jobInfo);
-        } catch (BigQueryException e) {
-            // the job was not created
+
+    public boolean userExists(String username, String password) throws InterruptedException {
+        String query = "Select * from driveshare.userinfo where username = '" + username + "' and password  ='" + password + "'";
+        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
+        for (FieldValueList row : DriveshareApplication.bigQueryDR.query(queryConfig).iterateAll()) {
+            for (FieldValue val : row) {
+                System.out.printf("%s,", String.valueOf(val.getValue()));
+                return true;
+            }
         }
-        // [END createJob]
-        return job;
+        return false;
+    }
+
+    public Iterable<FieldValueList> executeQuery(String query) throws InterruptedException {
+        QueryJobConfiguration queryConfig = QueryJobConfiguration.newBuilder(query).build();
+//        for (FieldValueList row : DriveshareApplication.bigQueryDR.query(queryConfig).iterateAll()) {
+//            for (FieldValue val : row) {
+//                System.out.printf("%s,", val.toString());
+//            }
+//            System.out.printf("\n");
+//        }
+        return DriveshareApplication.bigQueryDR.query(queryConfig).iterateAll();
     }
 }

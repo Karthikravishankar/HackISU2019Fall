@@ -17,7 +17,6 @@ import com.google.common.collect.Iterators;
 @RequestMapping("/search")
 public class Search {
 	
-	
 	@GetMapping
 	public ResponseEntity<String> MainSearch()
 	{
