@@ -8,27 +8,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/search")
-public class Search {
+@RequestMapping("/statistics")
+public class Statistics {
 	
 	@Autowired
 	Server server;
 	
-	
 	@GetMapping
-	public ResponseEntity<String> MainSearch()
+	public ResponseEntity<String> MainStatistics()
 	{
-		//simple comment test git
-		System.out.println("Search page is actived");
-		return new ResponseEntity<>("Welcome to search page" , HttpStatus.OK);
+		System.out.println("Statistics page on");
+		
+		return new ResponseEntity<>("Server Connected",HttpStatus.OK);
 	}
 	
 	
 	@RequestMapping("/test")
-	public String Search()
+	public String StatisticsTest()
 	{
-		return "test";
+		return "Test statistics";
+		
 	}
-	
 
 }
