@@ -4,6 +4,7 @@ import com.google.api.gax.paging.Page;
 import com.google.cloud.bigquery.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class BigQueryHelper {
 
@@ -40,4 +41,18 @@ public class BigQueryHelper {
 //        }
         return DriveshareApplication.bigQueryDR.query(queryConfig).iterateAll();
     }
+    
+    public void InsertIntoTable(Map<String,Object> input)
+    {
+    	InsertAllRequest insertrequest = InsertAllRequest.newBuilder(getTableByName("").getTableId()).addRow(input).build();
+    	InsertAllResponse insertresponse = DriveshareApplication.bigQueryDR.insertAll(insertrequest);
+    	
+    	if(insertresponse.hasErrors())
+    		System.out.println("error ocurr when inserting the row");
+    	
+    }
+    
+    
+    
+    
 }

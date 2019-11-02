@@ -1,6 +1,8 @@
 package com.example.driveshare;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,10 @@ public class Search {
 	@RequestMapping("/test")
 	public String Search()
 	{
+		Map<String,Object> temp = new HashMap<>();
+		temp.put("StringField", "test");
+		BigQueryHelper bg = new BigQueryHelper();
+		bg.InsertIntoTable(temp);
 		return "test";
 	}
 	

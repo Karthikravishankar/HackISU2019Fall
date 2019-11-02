@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 public class DriveshareApplication {
@@ -23,7 +25,8 @@ public class DriveshareApplication {
 		bigQueryDR = BigQueryOptions.getDefaultInstance().getService();
 
 		GoogleCredentials credentials = null;
-		File credentialsPath = new File("C:\\Users\\Karth\\Desktop\\hackisu2019fall\\HackISU2019Fall\\spring\\driveshare\\src\\cert.json");  // TODO: update to your key path.
+		//File credentialsPath = new File("C:\\Users\\Karth\\Desktop\\hackisu2019fall\\HackISU2019Fall\\spring\\driveshare\\src\\cert.json");  // TODO: update to your key path.
+		File credentialsPath = new File("/driveshare/src/main/java/com/example/driveshare/cert.json");  // TODO: update to your key path.
 		try (FileInputStream serviceAccountStream = new FileInputStream(credentialsPath)) {
 			credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
 		} catch (FileNotFoundException e) {
@@ -45,6 +48,8 @@ public class DriveshareApplication {
 			}
 		}
 
+		
+		
 	}
 
 }
