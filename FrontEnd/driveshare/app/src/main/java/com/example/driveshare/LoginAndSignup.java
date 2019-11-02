@@ -37,24 +37,27 @@ public class LoginAndSignup extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
-                startActivity(i);
-                //Login();
+//                Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+//                startActivity(i);
+                Login();
             }
         });
     }
 
     private void Login() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "";
+        String url =  "http://" + getString(R.string.ip_addr) + ":8080/login/validateLogin";
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
-//                        startActivity(i);
+                        System.out.println(response);
+                        if (response.equals("true")){
+                            Intent i = new Intent(LoginAndSignup.this, DriveShareMain.class);
+                            startActivity(i);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -63,6 +66,7 @@ public class LoginAndSignup extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
+                System.out.println(username.getText().toString());
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Username", username.getText().toString());
                 params.put("Password", password.getText().toString());
