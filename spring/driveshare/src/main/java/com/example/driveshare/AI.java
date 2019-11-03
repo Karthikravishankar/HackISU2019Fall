@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.util.*;
 
 public class AI {
-    String latitude="",longitude="",destlatitude="",destlongitude="";
-    JSONObject userPref;
-    BigQueryHelper bigQueryHelper = new BigQueryHelper();
-    FireBaseHelper fireBaseHelper = new FireBaseHelper();
-    JSONObject hashMap= new JSONObject();
+    private String latitude="",longitude="",destlatitude="",destlongitude="";
+    private JSONObject userPref;
+    private BigQueryHelper bigQueryHelper = new BigQueryHelper();
+    private FireBaseHelper fireBaseHelper = new FireBaseHelper();
+    private JSONObject hashMap= new JSONObject();
     public AI(JSONObject preferences,String userName,String latitude,String longitude,String destlatitude,String destlongitude) throws JSONException {
         this.latitude = latitude;
         this.longitude=longitude;
@@ -103,13 +103,9 @@ public class AI {
         return AD;
     }
 
-//    private double getDistanceofB(String latFroma, String lngFroma, String latDestb, String lngDestb, String latUser, String lngUser){
-//        return 0;
-//    }
-
     //Miles
     public double distance(double lat1,
-                                  double lat2, double lon1,
+                                   double lon1,double lat2,
                                   double lon2)
     {
 

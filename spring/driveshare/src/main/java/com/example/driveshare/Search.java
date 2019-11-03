@@ -42,8 +42,9 @@ public class Search {
 	}
 
 	@RequestMapping("/All")
-	public String ListAlluser()
+	public String ListAlluser(HttpServletRequest request)
 	{
+		System.out.println(request.getParameter("Sound"));
 		System.out.print("sdfa");
 		return "hh";
 	}
@@ -60,8 +61,51 @@ public class Search {
 		String destlongitude = request.getParameter("dest_lng");
 		AI ai =  new AI(getUserPreferences(username),username,latitude,longitude,destlatitude,destlongitude);
 		System.out.println(ai.getHashMap()==null);
-		System.out.println(ai.getHashMap().get("User"));
-		return "";
+		System.out.println(ai.getHashMap().toString());
+		if(ai.getHashMap()!=null){
+			String result = ai.getHashMap().toString();
+			System.out.println(result);
+			return result;
+		}
+		else {
+			return "NA";
+		}
+	}
+
+	@RequestMapping(value = "/WorkFlowStatus", method = RequestMethod.POST)
+	public String workFlow(HttpServletRequest request) throws IOException, JSONException, InterruptedException {
+		String username = request.getParameter("username");
+		String val = firebaseHelper.getFirebaseData("userinfo",username,"status");
+		return val;
+	}
+
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	public String deleteUser(HttpServletRequest request) throws IOException, JSONException, InterruptedException {
+		String username = request.getParameter("username");
+		String table = request.getParameter("table");
+		return firebaseHelper.deleteFirebaseData(table,username);
+	}
+
+	@RequestMapping(value = "/getCustomerName", method = RequestMethod.POST)
+	public String getCustomerName(HttpServletRequest request) throws IOException, JSONException, InterruptedException {
+		String username = request.getParameter("username");
+		String val = firebaseHelper.getFirebaseData("userinfo",username,"customername");
+		return val;
+	}
+
+
+	@RequestMapping(value = "/updateFireBase", method = RequestMethod.POST)
+	public String updateFireBaseRequestHandler(HttpServletRequest request) throws IOException, JSONException {
+		String tableName = request.getParameter("tableName");
+		String object = request.getParameter("object");
+		String jsonString = request.getParameter("jsonString");
+		JSONObject jsonObject = new JSONObject(jsonString);
+		Iterator<String> keys = jsonObject.keys();
+		while(keys.hasNext()) {
+			String key = keys.next();
+			firebaseHelper.updateFirebaseData(tableName,object,key, String.valueOf(jsonObject.get(key)));
+		}
+		return "Successfully updated Settings";
 	}
 
 	public JSONObject getUserPreferences(String User) throws IOException, InterruptedException, JSONException {
@@ -109,20 +153,21 @@ public class Search {
 		firebaseHelper.updateFirebaseData("preferences",User,"dest_lng", dest_lng);
 		return "Success";
 	}
-	
-	@RequestMapping(value = "/save" , method=RequestMethod.POST )
-	public void SaveDriverRecord(@RequestBody  DriveInfo di)
-	{
+
+	@RequestMapping(value = "/saveDriveInfo" , method=RequestMethod.POST )
+	public String saveDriveInfo(HttpServletRequest request) {
 		Map<String,Object> driveinfo = new HashMap<>();
-		driveinfo.put("username", di.username);
-		driveinfo.put("drivername", di.drivername);
-		driveinfo.put("pickup", di.pickup);
-		driveinfo.put("destination", di.destination);
-		driveinfo.put("distance", di.distance);
-		driveinfo.put("cost", "100");
-		driveinfo.put("gasolineSaved", di.gasolineSaved);
+		driveinfo.put("date", request.getParameter("date"));
+		driveinfo.put("username", request.getParameter("username"));
+		driveinfo.put("drivername", request.getParameter("drivername"));
+		driveinfo.put("pickup", request.getParameter("pickup"));
+		driveinfo.put("destination", request.getParameter("destination"));
+		driveinfo.put("distance", request.getParameter("distance"));
+		driveinfo.put("cost", request.getParameter("cost"));
+		driveinfo.put("gasolineSaved", request.getParameter("gasolineSaved"));
 		BigQueryHelper bg = new BigQueryHelper();
 		bg.InsertIntoTable(driveinfo , "driveinfo");
+		return "success";
 	}
 
 

@@ -39,6 +39,36 @@ public class FireBaseHelper {
         return value[0];
     }
 
+    public String deleteFirebaseData(String tableName, String object) throws IOException, InterruptedException {
+        CountDownLatch done = new CountDownLatch(1);
+        final String[] value = new String[1];
+        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = mFirebaseDatabase.getReference().child(tableName);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.child(object).exists()){
+                    value[0] = "true";
+                    snapshot.child(object).getRef().removeValue(null);
+                }
+                // it exists!
+                done.countDown();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+        try {
+            done.await(); //it will wait till the response is received from firebase.
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(value[0]==null){
+            value[0] = "false";
+        }
+        return value[0];
+    }
+
     public void updateFirebaseData(String tableName, String object, String key, String value){
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
         DatabaseReference mDatabaseReference;
