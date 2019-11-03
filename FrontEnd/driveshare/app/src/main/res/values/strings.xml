@@ -6,6 +6,11 @@
     <string name="google_maps_key">AIzaSyCu0kbDMOkf3KDIufqNcAH8apQfq8fcoRo</string>
 
 
+    <string-array name="analyticsOptions">
+        <item>List</item>
+        <item>Graph</item>
+    </string-array>
+
     <string name="spinner_prompt">Choose Type</string>
     <string name="title_activity_maps">Map</string>
 
@@ -36,6 +41,7 @@
     </string-array>
 
     <string-array name="music">
+        <item>Monster</item>
         <item>Pop</item>
         <item>Rap</item>
         <item>Blue</item>

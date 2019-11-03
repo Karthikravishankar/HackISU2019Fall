@@ -6,14 +6,102 @@
     android:layout_height="match_parent"
     tools:context=".analytics">
 
+    <Spinner
+        android:id="@+id/spinnerAnalytics"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.169" />
+
+    <TableLayout
+        android:id="@+id/Analytics_Table"
+        android:layout_width="327dp"
+        android:layout_height="453dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:paddingTop="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.567">
+
+        <TableRow
+            android:id="@+id/table_layout_row_1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/wtftest1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#ADD8E6"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text=" Info "
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+        </TableRow>
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:id="@+id/fixed_column"
+                android:layout_width="327dp"
+                android:layout_height="453dp"></TableLayout>
+        </ScrollView>
+    </TableLayout>
+
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/Analytics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Analytics"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.056" />
+
+    <TextView
+        android:id="@+id/analyticsGasoline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Gasoline Saved"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.883" />
+
+    <TextView
+        android:id="@+id/analyticsCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Cost Saved"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.939" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerAnalytics"
+        app:layout_constraintVertical_bias="0.4"></com.github.mikephil.charting.charts.LineChart>
 </androidx.constraintlayout.widget.ConstraintLayout>

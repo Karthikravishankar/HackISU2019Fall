@@ -43,8 +43,8 @@ public class JobLocationService extends Service {
     private static final String TAG = "JobLocationService";
     private String userName;
     private FusedLocationProviderClient mFusedLocationClient;
-    private final static long UPDATE_INTERVAL = 60 * 1000;  /* 4 secs */
-    private final static long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private final static long UPDATE_INTERVAL = 2 * 1000;  /* 4 secs */
+    private final static long FASTEST_INTERVAL = 1000; /* 2 sec */
     private Notification notification;
     private LocationRequest mLocationRequestHighAccuracy;
     private LocationCallback callback;
