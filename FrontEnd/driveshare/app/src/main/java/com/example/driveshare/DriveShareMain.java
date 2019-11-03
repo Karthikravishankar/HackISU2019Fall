@@ -56,7 +56,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallback {
+public class  DriveShareMain extends AppCompatActivity implements OnMapReadyCallback {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
