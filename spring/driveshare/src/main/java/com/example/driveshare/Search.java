@@ -45,14 +45,6 @@ public class Search {
 		System.out.println("Search page is actived");
 		return new ResponseEntity<>("Welcome to search page" , HttpStatus.OK);
 	}
-
-	@RequestMapping("/All")
-	public String ListAlluser(HttpServletRequest request)
-	{
-		System.out.println(request.getParameter("Sound"));
-		System.out.print("sdfa");
-		return Translator.detect();
-	}
 	
 	@RequestMapping("/languages")
 	public String allLanguage() throws InterruptedException
@@ -250,16 +242,29 @@ public class Search {
 		return "good";
 	}
 	
-	@RequestMapping("/soundtest")
-	public String soundtest() throws IOException, JSONException
+	@RequestMapping(value = "/soundtest", method = RequestMethod.POST)
+	public String soundtest(HttpServletRequest request) throws IOException, JSONException
 	{
+		String username = request.getParameter("username");
+		String customername = request.getParameter("customer");
 		byte[] temp = TextToSound.getSound("hello", "en-US");
-		return Base64.encodeBase64String(TextToSound.getSound("hello", "en-US"));
+		return Base64.encodeBase64String(TextToSound.getSound("You two have the same preferences in Movies, and Sports.", "en-US"));
 		
 		
 		//return Base64.encodeBase64String(TextToSound.getSound("hello", "en-US"));
 	}
-	
+
+	@RequestMapping("/translate/{request}")
+	public String translate(@PathVariable String request) throws Exception {
+		String input = request;
+		String type = Translator.detect(input);
+		if(!type.equals("en"))
+			return Base64.encodeBase64String((TextToSound.getSound(Translator.translatelanguage(input,type,"en") , "en")));
+		else
+			return Base64.encodeBase64String((TextToSound.getSound(input,type)));
+	}
+
+
 	@RequestMapping("/soundtotext/{input}/{output}")
 	public String soundtotext(@RequestBody String file , @PathVariable String input , @PathVariable String output) throws Exception
 	{
@@ -282,6 +287,21 @@ public class Search {
 		return SoundToText.testTran();
 
 
+	}
+
+	private String find_language(String input) throws InterruptedException {
+		BigQueryHelper bq = new BigQueryHelper();
+		Iterable<FieldValueList> collection = bq.executeQuery("Select * from driveshare.Languageinfo ");
+		String result = "";
+		for(FieldValueList fields : collection)
+		{
+			if(fields.get(0).getValue().toString().toLowerCase().equals(input.toLowerCase()))
+			{
+				return fields.get(1).getValue().toString().toLowerCase();
+			}
+		}
+
+		return null;
 	}
 
 }

@@ -46,7 +46,6 @@ public class Statistics {
 			JSONObject tempy = new JSONObject();
 			tempy.put(String.valueOf(tempy.length()), x.get("date").getValue().toString());
 			tempy.put(String.valueOf(tempy.length()), x.get("drivername").getValue().toString());
-			tempy.put(String.valueOf(tempy.length()), x.get("destination").getValue().toString());
 			tempy.put(String.valueOf(tempy.length()), x.get("cost").getValue().toString());
 			tempy.put(String.valueOf(tempy.length()), x.get("gasolineSaved").getValue().toString());
 			toSend.put(String.valueOf(toSend.length()),tempy.toString());

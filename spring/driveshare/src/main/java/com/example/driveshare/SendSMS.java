@@ -10,6 +10,7 @@ import com.twilio.type.PhoneNumber;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
 @RequestMapping("/sms")
@@ -22,12 +23,17 @@ public class SendSMS {
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     private void sendMsg(HttpServletRequest request) throws IOException {
         twilioInit();
-        PhoneNumber to = new PhoneNumber(request.getParameter("phoneNumber"));
+        BigQueryHelper bg = new BigQueryHelper();
+        String driverName = request.getParameter("username");
+        String customerName = request.getParameter("customername");
+        int code = ThreadLocalRandom.current().nextInt(100000,1000000);
+        //get customer phone number here
+        PhoneNumber to = new PhoneNumber("+15157153773");
         PhoneNumber from = new PhoneNumber(driveshare_no);
-        String message = request.getParameter("message");
+        String message = "Dear "+customerName+",\nYour driver "+driverName+
+               " is here. Here is your verification code:\n"+Integer.toString(code);
         MessageCreator creator = Message.creator(to, from, message);
         creator.create();
-        System.out.println("Message sent.");
     }
 
     private void twilioInit() {

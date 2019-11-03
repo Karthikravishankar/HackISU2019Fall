@@ -60,11 +60,7 @@ public class TextToSound {
 		      // Write the response to the output file.
 		      try (OutputStream out = new FileOutputStream("output.mp3")) {
 		        out.write(audioContents.toByteArray());
-		        System.out.println("Audio content written to file \"output.flac\"");
-		        
-		        Runtime.getRuntime().exec("sox output.mp3 output.flac");
-		        
-		        System.out.println("Done with transfer file from mp3 to flac");
+
 		      }
 		      		      
 		      return audioContents.toByteArray();

@@ -25,23 +25,20 @@ public class Translator {
    return translation.getTranslatedText();
   }
   
-  public static String detect()
+  public static String detect(String input)
   {
 	  Translate translate = TranslateOptions.getDefaultInstance().getService();
 	  List<String> texts = new LinkedList<>();
-	  texts.add("Hello, World!");
-	  texts.add("¡Hola Mundo!");
+	  texts.add(input);
 	  List<Detection> detections = translate.detect(texts);
 
-	  String temp = "";
-	  
 	  System.out.println("Language(s) detected:");
 	  for (Detection detection : detections) {
 	    System.out.printf("\t%s\n", detection);
-	    temp += detection + "\n";
+	    	return detection.getLanguage();
 	  }
-	return temp;
-	  
+
+	  return null;
   }
   
 }
