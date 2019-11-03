@@ -1,8 +1,19 @@
 package com.example.driveshare;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+
+import java.io.File;
+
+import javax.print.attribute.standard.Media;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import com.google.cloud.texttospeech.v1.AudioConfig;
 import com.google.cloud.texttospeech.v1.AudioEncoding;
@@ -13,10 +24,12 @@ import com.google.cloud.texttospeech.v1.TextToSpeechClient;
 import com.google.cloud.texttospeech.v1.VoiceSelectionParams;
 import com.google.protobuf.ByteString;
 
+import net.sourceforge.javaflacencoder.FLAC_FileEncoder;
+
 public class TextToSound {
 
 	
-	public static byte[] getSound(String text) throws IOException
+	public static byte[] getSound(String text , String type) throws IOException
 	{
 		try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
 		      // Set the text input to be synthesized
@@ -27,7 +40,7 @@ public class TextToSound {
 		      // Build the voice request, select the language code ("en-US") and the ssml voice gender
 		      // ("neutral")
 		      VoiceSelectionParams voice = VoiceSelectionParams.newBuilder()
-		          .setLanguageCode("en-US")
+		          .setLanguageCode(type)
 		          .setSsmlGender(SsmlVoiceGender.NEUTRAL)
 		          .build();
 
@@ -47,13 +60,19 @@ public class TextToSound {
 		      // Write the response to the output file.
 		      try (OutputStream out = new FileOutputStream("output.mp3")) {
 		        out.write(audioContents.toByteArray());
-		        System.out.println("Audio content written to file \"output.mp3\"");
+		        System.out.println("Audio content written to file \"output.flac\"");
+		        
+		        Runtime.getRuntime().exec("sox output.mp3 output.flac");
+		        
+		        System.out.println("Done with transfer file from mp3 to flac");
 		      }
-		      
+		      		      
 		      return audioContents.toByteArray();
 		      
 		    }
 	}
+	
+
 	
 	
 }

@@ -8,9 +8,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.api.client.util.Base64;
 import com.google.cloud.bigquery.FieldValue;
 import com.google.cloud.bigquery.FieldValueList;
 import com.google.common.collect.Iterables;
@@ -46,7 +47,22 @@ public class Search {
 	{
 		System.out.println(request.getParameter("Sound"));
 		System.out.print("sdfa");
-		return "hh";
+		return Translator.detect();
+	}
+	
+	@RequestMapping("/languages")
+	public String allLanguage() throws InterruptedException
+	{
+		BigQueryHelper bq = new BigQueryHelper();
+		Iterable<FieldValueList> collection = bq.executeQuery("Select * from driveshare.Languageinfo ");
+		String result = "";
+		for(FieldValueList fields : collection)
+		{
+			result += fields.get(0).toString() + ",";
+		}
+		
+		return result;
+		
 	}
 
 
@@ -193,20 +209,38 @@ public class Search {
 		return result;
 	}
 
-//	@RequestMapping(value = "/soundTest" , method=RequestMethod.POST )
-//	public String soundtest() throws IOException
-//	{
-//
-////		return new String(TextToSound.getSound("hello"));
-//		byte[] bytes =Base64.encodeBase64URLSafe(TextToSound.getSound("motherfucker"));
-//		return new String(bytes);
-////		return Base64.encodeToString(TextToSound.getSound("motherfucker"));
-//	}
-
-	@RequestMapping("/soundTest")
-	public ResponseEntity<byte[]> soundtest() throws IOException
+	
+	
+	@RequestMapping("/transSound/{text}/{input}/{output}")
+	public String TransSound(@PathVariable String text , @PathVariable String input , @PathVariable String output) throws IOException, Exception
 	{
-		return new ResponseEntity<>(TextToSound.getSound("hello") , HttpStatus.OK);
+		TextToSound.getSound(Translator.translatelanguage(text, language.SearchLanguage(input),language.SearchLanguage(output)), language.SearchLanguage(output));
+		return "good";
+	}
+	
+	@RequestMapping("/soundtest")
+	public String soundtest() throws IOException, JSONException
+	{
+		byte[] temp = TextToSound.getSound("hello", "en-US");
+		return Base64.encodeBase64String(TextToSound.getSound("hello", "en-US"));
+		
+		
+		//return Base64.encodeBase64String(TextToSound.getSound("hello", "en-US"));
+	}
+	
+	@RequestMapping("/soundtotext/{input}/{output}")
+	public String soundtotext(@RequestBody String file , @PathVariable String input , @PathVariable String output) throws Exception
+	{
+		return SoundToText.trans(file.getBytes() , input);
+	}
+	
+	@RequestMapping("/soundtotext")
+	public String soundtotext() throws Exception
+	{
+
+		return SoundToText.testTran();
+
+
 	}
 
 }
