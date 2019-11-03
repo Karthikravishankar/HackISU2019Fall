@@ -3,11 +3,11 @@ package com.example.driveshare;
 import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,11 +122,14 @@ public class Search {
 		return "good";
 	}
 	
-	@RequestMapping("/soundTest")
-	public JSONObject soundtest() throws IOException, JSONException
+	@RequestMapping("/soundtest")
+	public String soundtest() throws IOException, JSONException
 	{
-		JSONObject testV=new JSONObject( new String(TextToSound.getSound("hello" , "en-US")));
-		return testV;
+		byte[] temp = TextToSound.getSound("hello", "en-US");
+		return Base64.encodeBase64String(TextToSound.getSound("hello", "en-US"));
+		
+		
+		//return Base64.encodeBase64String(TextToSound.getSound("hello", "en-US"));
 	}
 	
 	@RequestMapping("/soundtotext")
