@@ -26,7 +26,7 @@ import java.util.Map;
 public class Settings extends AppCompatActivity {
 
     private Switch drive;
-    private EditText start, end;
+    private EditText start, end, lang;
 
     /*
         TODO:
@@ -43,6 +43,7 @@ public class Settings extends AppCompatActivity {
         drive = findViewById(R.id.switch_drive);
         start = findViewById(R.id.editText_start);
         end = findViewById(R.id.editText_end);
+        lang = findViewById(R.id.editText_lang);
 
         drive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -104,6 +105,7 @@ public class Settings extends AppCompatActivity {
                 params.put("dest_lat", Double.toString(lat2));
                 params.put("from_lng", Double.toString(lng1));
                 params.put("dest_lng", Double.toString(lng2));
+                params.put("lang", lang.getText().toString());
                 return params;
             }
         };
