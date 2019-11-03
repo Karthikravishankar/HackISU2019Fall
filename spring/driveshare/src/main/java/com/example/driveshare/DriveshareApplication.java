@@ -30,6 +30,7 @@ public class DriveshareApplication {
 		GoogleCredentials credentials = null;
 		File credentialsPath = new File("C:\\Users\\Karth\\Desktop\\hackisu2019fall\\HackISU2019Fall\\spring\\driveshare\\src\\cert.json");  // TODO: update to your key path.
 //		File credentialsPath = new File("/home/taro/Workspace/hanker/HackISU2019Fall/spring/driveshare/src/cert.json");  // TODO: update to your key path.
+//		File credentialsPath = new File("/Users/skinnyg/Documents/HackISU/HackISU2019Fall/spring/driveshare/src/cert.json");
 		try (FileInputStream serviceAccountStream = new FileInputStream(credentialsPath)) {
 			credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
 		} catch (FileNotFoundException e) {
@@ -52,6 +53,7 @@ public class DriveshareApplication {
 		FileInputStream serviceAccount =
 				new FileInputStream("C:\\Users\\Karth\\Desktop\\hackisu2019fall\\HackISU2019Fall\\spring\\driveshare\\src\\FBcert.json");
 //				new FileInputStream("/home/taro/Workspace/hanker/HackISU2019Fall/spring/driveshare/src/FBcert.json");
+//				new FileInputStream("/Users/skinnyg/Documents/HackISU/HackISU2019Fall/spring/driveshare/src/FBcert.json");
 		FirebaseOptions options = new FirebaseOptions.Builder()
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setDatabaseUrl("https://woven-fountain-257807.firebaseio.com")
