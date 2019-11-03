@@ -48,8 +48,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -72,12 +75,12 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private NavigationView navigation;
-    private Button submit,workflow,reached;
+    private Button submit,workflow,reached,updateButton;
     private Spinner type;
     private EditText dest;
     private String lat, lng, progress = "";
     private String username;
-    private String customername,drivername;
+    private String customername,drivername,FromLocation="",TOdestination="";
     private JSONObject coordinates = new JSONObject();
     private double distance=0.0;
     private int sendCount;
@@ -105,7 +108,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
         reached = findViewById(R.id.reached);
         workflow.setVisibility(View.INVISIBLE);
         reached.setVisibility(View.INVISIBLE);
-
+        updateButton = findViewById(R.id.Update);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -241,21 +244,6 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                     // set rating for each other using pop up
                     // change status to normal
                     allowed= false;
-                    JSONObject toSave = new JSONObject();
-                    try {
-                        toSave.put("username",customername);
-                        toSave.put("drivername",customername);
-                        toSave.put("pickup",customername);
-                        toSave.put("destination",customername);
-                        toSave.put("distance",customername);
-                        toSave.put("cost",customername);
-                        toSave.put("gasolineSaved",customername);
-                        toSave.put("date",customername);
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                     try {
                         if(isLocationServiceRunning()){
                             stopService(serviceIntent);
@@ -296,6 +284,54 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                 workflow.setText(progress);
             }
         });
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCoordinates("userinfo",username,"JourneyCoordinates");
+            }
+        });
+    }
+
+    private void saveInBigQuery (final String customername, final String username, final String distance, final String cost, final String gasoline, final String date)
+    {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://" + getString(R.string.ip_address) + ":8080/search/saveDriveInfo";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("null") || response.equals("NA") ){
+                            // do nothing
+                        }
+                        System.out.println(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println(error.networkResponse);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", customername);
+                params.put("drivername", username);
+                params.put("pickup", FromLocation);
+                params.put("destination ", TOdestination);
+                params.put("cost", cost);
+                params.put("gasolineSaved", gasoline);
+                params.put("distance", distance);
+                params.put("date", date);
+
+                return params;
+            }
+        };
+        System.out.println("In Save BQ");
+        queue.add(postRequest);
+        System.out.println("In Save BQ2");
+
     }
 
     private void getCustomerDriverName() {
@@ -427,9 +463,79 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
         }
     };
 
+    private void getDriverJobFrom(final String tableName, final String object, final String search) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://" + getString(R.string.ip_address) + ":8080/search/getFireBaseData";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("|"+response+"|");
+                        // get the coordinates from firebase and then update the json here
+                        if(response==null || response.equals("null")){
+                        }
+                        else if(response.equals("NA")==false){
+                            FromLocation = response;
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(DriveShareMain.this, "Failed to get coordinate data", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("search", search);
+                params.put("object", object);
+                params.put("tableName", tableName);
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    private void getDriverJobDest(final String tableName, final String object, final String search) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://" + getString(R.string.ip_address) + ":8080/search/getFireBaseData";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("|"+response+"|");
+                        // get the coordinates from firebase and then update the json here
+                        if(response==null || response.equals("null")){
+                        }
+                        else if(response.equals("NA")==false){
+                            TOdestination = response;
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(DriveShareMain.this, "Failed to get coordinate data", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("search", search);
+                params.put("object", object);
+                params.put("tableName", tableName);
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
     private void getCoordinates(final String tableName, final String object, final String search) {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://" + getString(R.string.ip_address) + ":8080/driverPage/getFireBaseData";
+        String url = "http://" + getString(R.string.ip_address) + ":8080/search/getFireBaseData";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -441,6 +547,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                         else if(response.equals("NA")==false){
                             try {
                                 coordinates = new JSONObject(response);
+                                updateMap();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -692,6 +799,30 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+
+                JSONObject toSave = new JSONObject();
+                try {
+                    getDriverJobDest("preferences", username,"Destination");
+                    getDriverJobFrom("preferences", username,"From");
+                    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    Date date = new Date();
+                    toSave.put("username",customername);
+                    toSave.put("drivername",username);
+                    toSave.put("pickup",FromLocation);
+                    toSave.put("destination",TOdestination);
+                    toSave.put("distance",String.valueOf(distance));
+                    toSave.put("cost",String.valueOf((distance/24.7)*2.81));
+                    toSave.put("gasolineSaved",String.valueOf(distance/24.7));
+                    toSave.put("date",dateFormat.format(date));
+                    saveInBigQuery(customername, username, String.valueOf(distance), String.valueOf((distance/24.7)*2.81),String.valueOf(distance/24.7),dateFormat.format(date));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
                 // change status of customer to "Normal"
                 sendPostUpdateDataBase("userinfo",username, jsonObject.toString());
                 type.setVisibility(View.VISIBLE);
@@ -699,8 +830,8 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                 submit.setVisibility(View.VISIBLE);
                 workflow.setVisibility(View.INVISIBLE);
                 reached.setVisibility(View.INVISIBLE);
-                sendPostDelete("preferences",username);
-                sendPostDelete("userinfo",customername);
+//                sendPostDelete("preferences",username);
+//                sendPostDelete("userinfo",customername);
                 builder.dismiss();
             }
         });
@@ -832,7 +963,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Ames"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(sydney.latitude, sydney.longitude), 20));
 
-        if(lat != null) {
+        if(lat != null || coordinates.length()>0) {
 
             try {
                 mMap.clear();
