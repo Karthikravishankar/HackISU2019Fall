@@ -35,9 +35,11 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -47,7 +49,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -209,7 +215,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                             }
                             // change status of customer to "Ride with Driver"
                             sendPostUpdateDataBase("userinfo", customername, jsonObject.toString());
-
+//                            sendTwilioVerify();
                             jsonObject = new JSONObject();
                             try {
                                 jsonObject.put("status", progress);
@@ -233,6 +239,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                             getCoordinates("userinfo",username,"JourneyCoordinates");
                             //TODO
                             // play sounds
+                            sendPlaySoundRequest();
                         }
                     }
                     else{
@@ -290,6 +297,74 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                 getCoordinates("userinfo",username,"JourneyCoordinates");
             }
         });
+    }
+
+    private void sendPlaySoundRequest() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://" + getString(R.string.ip_address) + ":8080/search/soundtest";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if(response.equals("null") || response.equals("NA") ){
+                            // do nothing
+                        }
+                        else{
+                            byte[] temp = Base64.decode(response,Base64.DEFAULT);
+
+
+
+                            playMp3(temp);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", username);
+                params.put("customer", customername);
+                return params;
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    private void playMp3(byte[] mp3SoundByteArray) {
+        try {
+            MediaPlayer mediaPlayer = new MediaPlayer();
+
+            // create temp file that will hold byte array
+            File tempMp3 = File.createTempFile("kurchina", "mp3", getCacheDir());
+            tempMp3.deleteOnExit();
+            FileOutputStream fos = new FileOutputStream(tempMp3);
+            fos.write(mp3SoundByteArray);
+            fos.close();
+
+            // resetting mediaplayer instance to evade problems
+            mediaPlayer.reset();
+
+            // In case you run into issues with threading consider new instance like:
+            // MediaPlayer mediaPlayer = new MediaPlayer();
+
+            // Tried passing path directly, but kept getting
+            // "Prepare failed.: status=0x1"
+            // so using file descriptor instead
+            FileInputStream fis = new FileInputStream(tempMp3);
+            mediaPlayer.setDataSource(fis.getFD());
+
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException ex) {
+            String s = ex.toString();
+            ex.printStackTrace();
+        }
     }
 
     private void saveInBigQuery (final String customername, final String username, final String distance, final String cost, final String gasoline, final String date)
@@ -843,6 +918,97 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
         });
     }
 
+    private void translatePopUp() throws JSONException {
+        final TextView input1 = new TextView(this);
+        String toRender = ">.<*\n";
+        input1.setText(toRender);
+        input1.setGravity(Gravity.CENTER);
+
+        final EditText input2 = new EditText(this);
+        input2.setHint("Text");
+        input2.setGravity(Gravity.CENTER);
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(input1);
+        linearLayout.addView(input2);
+
+        final AlertDialog builder = new AlertDialog.Builder(this)
+                .setTitle("Enter text to translate")
+                .setCancelable(false)
+                .setMessage("Please rate your friendship based on the journey.").setView(linearLayout).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create();
+        builder.show();
+        ((AlertDialog) builder).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("status","Normal");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                // change status of customer to "Normal"
+                sendPostUpdateDataBase("userinfo",customername, jsonObject.toString());
+
+
+                jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("status","Normal");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                JSONObject toSave = new JSONObject();
+                try {
+                    getDriverJobDest("preferences", username,"Destination");
+                    getDriverJobFrom("preferences", username,"From");
+                    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                    Date date = new Date();
+                    toSave.put("username",customername);
+                    toSave.put("drivername",username);
+                    toSave.put("pickup",FromLocation);
+                    toSave.put("destination",TOdestination);
+                    toSave.put("distance",String.valueOf(distance));
+                    toSave.put("cost",String.valueOf((distance/24.7)*2.81));
+                    toSave.put("gasolineSaved",String.valueOf(distance/24.7));
+                    toSave.put("date",dateFormat.format(date));
+                    saveInBigQuery(customername, username, String.valueOf(distance), String.valueOf((distance/24.7)*2.81),String.valueOf(distance/24.7),dateFormat.format(date));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                // change status of customer to "Normal"
+                sendPostUpdateDataBase("userinfo",username, jsonObject.toString());
+                type.setVisibility(View.VISIBLE);
+                dest.setVisibility(View.VISIBLE);
+                submit.setVisibility(View.VISIBLE);
+                workflow.setVisibility(View.INVISIBLE);
+                reached.setVisibility(View.INVISIBLE);
+//                sendPostDelete("preferences",username);
+//                sendPostDelete("userinfo",customername);
+                builder.dismiss();
+            }
+        });
+        ((AlertDialog) builder).getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
+    }
+
     private void sendPostUpdateDataBase(final String tableName, final String object, final String jsonString) {
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://" + getString(R.string.ip_address) + ":8080/search/updateFireBase";
@@ -943,6 +1109,7 @@ public class DriveShareMain extends AppCompatActivity implements OnMapReadyCallb
                         sound.putExtra("username", username);
                         startActivity(sound);
                         break;
+
                 }
                 return false;
             }

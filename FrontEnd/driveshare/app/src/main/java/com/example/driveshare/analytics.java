@@ -150,15 +150,15 @@ public class analytics extends AppCompatActivity implements AdapterView.OnItemSe
             while (keys.hasNext()) {
                 String key = keys.next();
                 JSONObject cur = new JSONObject((String) userInfo.get(key));
-                tcost = tcost + Double.parseDouble((String) cur.get("3"));
-                tgasoline = tgasoline + Double.parseDouble((String) cur.get("4"));
+                tcost = tcost + Double.parseDouble((String) cur.get("2"));
+                tgasoline = tgasoline + Double.parseDouble((String) cur.get("3"));
 
                 TableRow tableRow = new TableRow(this);
                 TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
                 tableRow.setLayoutParams(layoutParams);
 
                 TextView text1 = new TextView(this);
-                text1.setText(cur.get("0") + " | " + cur.get("1") + " | Place: " + cur.get("2") + " | Cost:" + cur.get("3") + " | Gasoline: " + cur.get("4"));
+                text1.setText(cur.get("0") + " | " + cur.get("1")  + " | Cost:" + cur.get("2") + " | Gasoline: " + cur.get("3"));
                 text1.setBackgroundColor(Color.parseColor("#ffffcc"));
                 text1.setGravity(Gravity.CENTER);
                 ViewGroup.LayoutParams params = textView.getLayoutParams();
@@ -183,7 +183,7 @@ public class analytics extends AppCompatActivity implements AdapterView.OnItemSe
                 String key = keys.next();
                 JSONObject temper = new JSONObject((String) userInfo.get(key));
                 String index = String.valueOf(count);
-                String gasoline = String.valueOf(temper.get("4"));
+                String gasoline = String.valueOf(temper.get("3"));
                 x = (float) Double.parseDouble(index);
                 y = (float) Double.parseDouble(gasoline);
                 yAXESsin.add(new Entry(x, y));
