@@ -44,8 +44,22 @@ public class Search {
 	@RequestMapping("/All")
 	public String ListAlluser()
 	{
-		System.out.print("sdfa");
-		return "hh";
+		return Translator.detect();
+	}
+	
+	@RequestMapping("/languages")
+	public String allLanguage() throws InterruptedException
+	{
+		BigQueryHelper bq = new BigQueryHelper();
+		Iterable<FieldValueList> collection = bq.executeQuery("Select * from driveshare.Languageinfo ");
+		String result = "";
+		for(FieldValueList fields : collection)
+		{
+			result += fields.get(0).toString() + ",";
+		}
+		
+		return result;
+		
 	}
 
 
@@ -115,10 +129,10 @@ public class Search {
 	}
 	
 	
-	@RequestMapping("/transSound_{text}")
-	public String TransSound(@PathVariable String text) throws IOException, Exception
+	@RequestMapping("/transSound/{text}/{input}/{output}")
+	public String TransSound(@PathVariable String text , @PathVariable String input , @PathVariable String output) throws IOException, Exception
 	{
-		TextToSound.getSound(Translator.translatelanguage(text, "zh"), "en-US");
+		TextToSound.getSound(Translator.translatelanguage(text, language.SearchLanguage(input),language.SearchLanguage(output)), language.SearchLanguage(output));
 		return "good";
 	}
 	
@@ -132,10 +146,16 @@ public class Search {
 		//return Base64.encodeBase64String(TextToSound.getSound("hello", "en-US"));
 	}
 	
+	@RequestMapping("/soundtotext_{input}_{output}")
+	public String soundtotext(@RequestBody String file , @PathVariable String input , @PathVariable String output) throws Exception
+	{
+		return SoundToText.trans(file.getBytes() , input);
+	}
+	
 	@RequestMapping("/soundtotext")
 	public String soundtotext() throws Exception
 	{
-		return SoundToText.trans();
+		return SoundToText.testTran();
 	}
 
 }
