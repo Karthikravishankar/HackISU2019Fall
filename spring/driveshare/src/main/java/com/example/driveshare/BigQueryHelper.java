@@ -54,4 +54,14 @@ public class BigQueryHelper {
     	
     }
 
+    public void InsertIntoTableP2(Map<String,String> input , String tablename)
+    {
+        InsertAllRequest insertrequest = InsertAllRequest.newBuilder(getTableByName(tablename).getTableId()).addRow(input).build();
+        InsertAllResponse insertresponse = DriveshareApplication.bigQueryDR.insertAll(insertrequest);
+
+        if(insertresponse.hasErrors())
+            System.out.println("error ocurr when inserting the row");
+
+    }
+
 }

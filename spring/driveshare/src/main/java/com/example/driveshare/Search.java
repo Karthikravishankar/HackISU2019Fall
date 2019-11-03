@@ -1,13 +1,17 @@
 package com.example.driveshare;
 
 import java.awt.List;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import com.google.cloud.bigquery.InsertAllRequest;
+import com.google.cloud.bigquery.InsertAllResponse;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,6 +99,15 @@ public class Search {
 		return val;
 	}
 
+	@RequestMapping(value = "/getFireBaseData", method = RequestMethod.POST)
+	public String getJourneyCoordinates(HttpServletRequest request) throws IOException, InterruptedException {
+		String search = request.getParameter("search");
+		String object = request.getParameter("object");
+		String tableName = request.getParameter("tableName");
+		String toReturn = firebaseHelper.getFirebaseData(tableName,object,search);
+		return toReturn;
+	}
+
 	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
 	public String deleteUser(HttpServletRequest request) throws IOException, JSONException, InterruptedException {
 		String username = request.getParameter("username");
@@ -172,17 +185,36 @@ public class Search {
 
 	@RequestMapping(value = "/saveDriveInfo" , method=RequestMethod.POST )
 	public String saveDriveInfo(HttpServletRequest request) {
-		Map<String,Object> driveinfo = new HashMap<>();
-		driveinfo.put("date", request.getParameter("date"));
-		driveinfo.put("username", request.getParameter("username"));
-		driveinfo.put("drivername", request.getParameter("drivername"));
-		driveinfo.put("pickup", request.getParameter("pickup"));
-		driveinfo.put("destination", request.getParameter("destination"));
-		driveinfo.put("distance", request.getParameter("distance"));
-		driveinfo.put("cost", request.getParameter("cost"));
-		driveinfo.put("gasolineSaved", request.getParameter("gasolineSaved"));
+		Map<String,String> driveinfo = new HashMap<>();
+		String date = request.getParameter("date");
+		String username = request.getParameter("username");
+		String drivername = request.getParameter("drivername");
+		String pickup = request.getParameter("pickup");
+		String destination = request.getParameter("destination");
+		String distance = request.getParameter("distance");
+		String cost = request.getParameter("cost");
+		String gasoline = request.getParameter("gasolineSaved");
+
+		driveinfo.put("date", date);
+		driveinfo.put("username", username);
+		driveinfo.put("drivername", drivername);
+		driveinfo.put("pickup", pickup);
+		driveinfo.put("destination", destination);
+		driveinfo.put("distance", distance);
+		driveinfo.put("cost", cost);
+		driveinfo.put("gasolineSaved", gasoline);
 		BigQueryHelper bg = new BigQueryHelper();
-		bg.InsertIntoTable(driveinfo , "driveinfo");
+		bg.InsertIntoTableP2(driveinfo , "driveinfo");
+
+
+//		InsertAllRequest insertRequest =
+//				InsertAllRequest.newBuilder(bg.getTableByName("driveinfo").getTableId()).addRow(driveinfo).build();
+		// Insert rows
+//		InsertAllResponse insertResponse = bg.
+		// Check if errors occurred
+//		if (insertResponse.hasErrors()) {
+//			System.out.println("Errors occurred while inserting rows");
+//		}
 		return "success";
 	}
 
@@ -231,7 +263,16 @@ public class Search {
 	@RequestMapping("/soundtotext/{input}/{output}")
 	public String soundtotext(@RequestBody String file , @PathVariable String input , @PathVariable String output) throws Exception
 	{
-		return SoundToText.trans(file.getBytes() , input);
+		String temp = file.substring(6);
+		byte[] data = Base64.decodeBase64(temp);
+
+		try(OutputStream out = new FileOutputStream("test.mp3"))
+		{
+			out.write(data);
+		}
+
+	return "finish";
+		//return SoundToText.trans(data , input);
 	}
 	
 	@RequestMapping("/soundtotext")
