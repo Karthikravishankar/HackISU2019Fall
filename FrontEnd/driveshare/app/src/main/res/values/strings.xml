@@ -7,6 +7,8 @@
 
 
     <string name="spinner_prompt">Choose Type</string>
+    <string name="title_activity_maps">Map</string>
+
     <string-array name="spinner_types">
         <item>Public</item>
         <item>Friends</item>
@@ -60,12 +62,10 @@
         <item>Coke</item>
         <item>Redbull</item>
     </string-array>
-
     <string-array name="food">
         <item>Rice</item>
         <item>Ham</item>
         <item>Turkey</item>
         <item>Noodle</item>
     </string-array>
-    <string name="title_activity_maps">Map</string>
 </resources>

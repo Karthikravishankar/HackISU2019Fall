@@ -54,38 +54,4 @@ public class BigQueryHelper {
     	
     }
 
-
-    public JSONObject getAvailableDriver(){
-        JSONObject jsonobject = new JSONObject();
-        final CountDownLatch[] done = {new CountDownLatch(1)};
-        FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = mFirebaseDatabase.getReference().child("preferences");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot Snapshot: dataSnapshot.getChildren()) {
-                    if (Snapshot.child("Driving").getValue().toString().equals("true")) {
-                        try {
-                            jsonobject.put(Snapshot.getKey(),Snapshot.getValue());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                done[0].countDown();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        try {
-            done[0].await(); //it will wait till the response is received from firebase.
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return jsonobject;
-    }
 }

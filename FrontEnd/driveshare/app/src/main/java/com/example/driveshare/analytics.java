@@ -27,7 +27,7 @@ public class analytics extends AppCompatActivity {
 
     private void sendPostRequest(){
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://" + getString(R.string.ip_address) + ":8080/customerPage/addRequest";
+        String url = "http://" + getString(R.string.ip_address) + ":8080/statistics/Stat";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
